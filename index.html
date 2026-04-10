@@ -1,183 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Prompt Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="UTF-8" />
-  <title>AI Prompt Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
 
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      .dark {
+  background: #0f172a;
+  color: #e5e7eb;
+}
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+.dark .card {
+  background: #1e293b;
+  color: #e5e7eb;
+}
 
-  <style>
-    /* Blinking animation */
-    @keyframes blink {
-      0% {
-        opacity: 1;
+.dark .form-control,
+.dark .form-select {
+  background: #0f172a;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+.dark .btn-light {
+  background: #1e293b;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+      pre {
+        background: #0f172a;
+        color: #e5e7eb;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 12px;
       }
-      50% {
-        opacity: 0;
+      body {
+        background: #f5f7fb;
+        transition: 0.3s;
       }
-      100% {
-        opacity: 1;
+      .dark {
+        background: #0f172a;
+        color: #e5e7eb;
       }
-    }
+      textarea.output {
+        background: #0f172a;
+        color: #e5e7eb;
+        font-family: monospace;
+      }
 
-    .blink-text {
-      animation: blink 1.2s linear infinite;
-    }
+      .output-wrap {
+        position: relative;
+      }
+      .copy-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+      .copied {
+        position: absolute;
+        top: 10px;
+        right: 40px;
+        font-size: 12px;
+        color: #22c55e;
+        display: none;
+      }
 
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: #f5f7fb;
-    }
+      .hint {
+        font-size: 12px;
+        color: #6b7280;
+      }
+      .hide {
+        display: none;
+      }
+      .badge-q {
+        font-size: 11px;
+      }
 
-    .hero {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
+      .btn:hover {
+        transform: translateY(-1px);        
 
-    .hint {
-      font-size: 12px;
-      color: #6b7280;
-    }
+        transition: 0.15s;
+      }
+    
+    </style>
+  </head>
 
-    .hide {
-      display: none;
-    }
+  <body>
+    <div class="container py-4">
+      <!-- HEADER -->
+<div class="container-fluid bg-dark text-light py-4 mb-4 hero">
+  <div class="container-xl">
 
-    textarea.output {
-      font-family: Consolas, monospace;
-      background: #0f172a;
-      color: #e5e7eb;
-      font-size: 13px;
-      line-height: 1.5;
-      border: 1px solid #1e293b;
-      padding-top: 36px;
-    }
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-    .output-wrap {
-      position: relative;
-    }
+      <!-- LEFT: Title + Description -->
+      <div>
+        <h4 class="mb-1 fw-semibold">AI Prompt Generator</h4>
 
-    .copy-icon {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      font-size: 18px;
-      cursor: pointer;
-      color: #9ca3af;
-    }
+        <p class="mb-1 small text-secondary">
+          Think clearly. Instruct AI precisely. Get consistent results.
+        </p>
 
-    .copy-icon:hover {
-      color: #ffffff;
-    }
-
-    .copied {
-      position: absolute;
-      top: 12px;
-      right: 44px;
-      font-size: 12px;
-      color: #22c55e;
-      display: none;
-    }
-
-    pre {
-      background: #0f172a;
-      color: #e5e7eb;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 12px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- HERO -->
-  <div class="container-fluid bg-dark text-light py-5 mb-4 hero">
-    <div class="container-xl">
-      <div class="row g-4 align-items-stretch">
-
-        <!-- Title -->
-        <div class="col-lg-11">
-          <h1 class="display-6 fw-semibold">AI Prompt Generator</h1>
-          <p class="lead text-secondary mb-1">
-            Think clearly. Instruct AI precisely. Get consistent results.
-          </p>
-          <div class="small text-secondary">
-            1️⃣ Describe task → 2️⃣ Add context → 3️⃣ Generate & paste into AI
-          </div>
+        <div class="small text-secondary">
+          1️⃣ Describe task → 2️⃣ Add context → 3️⃣ Generate & paste into AI
         </div>
+      </div>
 
-        <!-- Help link -->
-        <div class="col-lg-1 d-flex
-                  align-items-center align-items-lg-end
-                  justify-content-center justify-content-lg-end">
-          <a href="#" class="text-danger fw-semibold text-decoration-none blink-text" data-bs-toggle="modal"
-            data-bs-target="#helpModal">
-            Help
-          </a>
-        </div>
+      <!-- RIGHT: Controls -->
+      <div class="d-flex gap-2">
+
+        <button
+          id="darkToggleBtn"
+          class="btn btn-sm btn-outline-light"
+          onclick="toggleDark()"
+          title="Dark Mode"
+        >
+          <i id="darkIcon" class="bi bi-moon-fill"></i>
+        </button>
+
+        <button
+          class="btn btn-sm btn-outline-light"
+          onclick="toggleAdvanced()"
+          title="Advanced"
+        >
+          <i class="bi bi-gear"></i>
+        </button>
+
+        <button
+          class="btn btn-sm btn-outline-warning"
+          onclick="clearAll()"
+          title="Reset"
+        >
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+
+        <button
+          class="btn btn-sm btn-outline-info"
+          data-bs-toggle="modal"
+          data-bs-target="#helpModal"
+          title="Help"
+        >
+          <i class="bi bi-question-circle"></i>
+        </button>
 
       </div>
+
     </div>
+
   </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="container-xl mb-5">
-    <div class="row g-4">
-
-      <!-- APP -->
-      <div class="col-lg-8">
-        <div class="card shadow-sm border-0">
-          <div class="card-body p-4">
-
+</div>
+      <div class="row gx-4 gy-3">
+        <div class="col-12 col-lg-9">
+          <div class="card p-4 h-100">
             <!-- TASK -->
-            <div class="mb-4">
-              <label class="form-label fw-semibold">
-                Task / Requirement <span class="text-danger">*</span>
-              </label>
-              <textarea id="task" class="form-control" rows="4"
-                placeholder="Example: Draft a 6-bullet exec update with risks and next steps."></textarea>
-              <div class="hint mt-1">
-                Start with what you want. Format + outcome matter more than words.
-              </div>
+            <label class="fw-semibold">Task *</label>
+            <textarea id="task" class="form-control mb-1" rows="3"></textarea>
+            <div id="taskErr" class="text-danger small"></div>
+
+            <!-- PRECISION -->
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <label class="mb-0">Precision</label>
+              <span id="precisionHint" class="text-muted small"></span>
             </div>
 
-            <!-- CONTEXT -->
-            <div class="mb-4">
-              <label class="form-label fw-semibold d-flex justify-content-between">
-                <span>Context / Situation <span class="text-muted">(Recommended)</span></span>
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertContextTemplate()">
-                  Insert Template
+            <select
+              id="precision"
+              class="form-select mb-2"
+              onchange="updatePrecisionHint()"
+            >
+              <option>High-level summary</option>
+              <option>Practical execution steps</option>
+              <option>Deep technical reasoning</option>
+              <option>Decision-making analysis</option>
+            </select>
+
+            <!-- ADVANCED -->
+            <div id="adv" class="hide">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <label class="fw-semibold mb-0">
+                  Context / Situation
+                  <span class="text-muted">(Recommended)</span>
+                </label>
+
+                <button
+                  class="btn btn-sm btn-primary"
+                  onclick="insertContextTemplate()"
+                >
+                  Template
                 </button>
-              </label>
-              <textarea id="context" class="form-control" rows="6"
-                placeholder="Provide facts only. No assumptions."></textarea>
-              <div class="hint mt-1">
-                Context prevents generic advice and hallucination.
               </div>
-            </div>
 
-            <!-- AUDIENCE -->
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Audience</label>
-              <select id="audience" class="form-select">
+              <textarea
+                id="context"
+                class="form-control mb-2"
+                rows="4"
+              ></textarea>
+
+              <label>Audience</label>
+              <select id="audience" class="form-select mb-2">
                 <option>Self</option>
                 <option>Peer / Team</option>
                 <option>Manager</option>
                 <option>Senior Leadership</option>
                 <option>Customer / External</option>
               </select>
-            </div>
 
-            <!-- PERSONA -->
-            <div class="mb-3">
-              <label class="form-label fw-semibold">AI Role / Persona</label>
-              <select id="persona" class="form-select" onchange="checkPersonaUpdate()">
+              <label>Persona</label>
+              <select id="persona" class="form-select mb-2">
                 <option value="Select">Select</option>
                 <option>Career Coach</option>
                 <option>Leadership Coach</option>
@@ -186,88 +228,121 @@
                 <option>Tech Mentor</option>
                 <option value="other">Other</option>
               </select>
+
+              <div id="roleOverride" class="hide">
+                <input
+                  id="role"
+                  class="form-control mb-2"
+                  placeholder="Custom Role"
+                />
+              </div>
             </div>
 
-            <!-- ROLE OVERRIDE -->
-            <div class="mb-3 hide" id="roleOverride">
-              <label class="form-label fw-semibold">Custom Role</label>
-              <input id="role" class="form-control"
-                placeholder='e.g., "Principal Engineer", "SRE Lead", "Exec Coach"' />
+            <!-- BUTTONS -->
+            <div class="d-flex gap-2 mt-3">
+              <button
+                class="btn btn-primary flex-fill d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                onclick="generatePrompt()"
+              >
+                <i class="bi bi-magic"></i> Generate
+              </button>
+
+              <button
+                class="btn btn-outline-secondary flex-fill d-flex align-items-center justify-content-center gap-2"
+                onclick="clearAll()"
+              >
+                <i class="bi bi-arrow-counterclockwise"></i> Clear
+              </button>
+
+              <button
+                class="btn btn-light border d-flex align-items-center gap-2 px-3"
+                onclick="toggleAdvanced()"
+                title="Advanced"
+              >
+                <i class="bi bi-gear"></i>
+                <span class="d-none d-md-inline">Advanced</span>
+              </button>
             </div>
-
-            <!-- PRECISION -->
-            <div class="mb-4">
-              <label class="form-label fw-semibold">Precision Level</label>
-              <select id="precision" class="form-select">
-                <option>High-level summary</option>
-                <option>Practical execution steps</option>
-                <option>Deep technical reasoning</option>
-                <option>Decision-making analysis</option>
-              </select>
-            </div>
-
-            <!-- CTA -->
-            <button class="btn btn-primary w-100 mb-4" onclick="generatePrompt()">
-              Generate Prompt
-            </button>
-
-            <!-- OUTPUT -->
-            <label class="form-label fw-semibold">Generated Prompt</label>
-            <div class="output-wrap mb-1">
-              <span class="copy-icon" onclick="copyPrompt()">📋</span>
-              <span class="copied" id="copiedText">Copied!</span>
-              <textarea id="output" class="form-control output" rows="14" readonly
-                placeholder="Your generated prompt will appear here..."></textarea>
-            </div>
-            <div class="hint">Paste this directly into a new AI chat.</div>
-
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <script
+            src="https://platform.linkedin.com/badges/js/profile.js"
+            async
+            defer
+            type="text/javascript"
+          ></script>
+          <div
+            class="badge-base LI-profile-badge"
+            data-locale="en_US"
+            data-size="large"
+            data-theme="light"
+            data-type="HORIZONTAL"
+            data-vanity="sandeep-singampalli"
+            data-version="v1"
+          >
+            <a
+              class="badge-base__link LI-simple-link"
+              href="https://in.linkedin.com/in/sandeep-singampalli?trk=profile-badge"
+              ></a
+            >
           </div>
         </div>
       </div>
+      <!-- OUTPUT -->
+        <div class="row gx-4 gy-3"></div>
+      <div class="card p-3 mt-4 col-lg-12">
+        <div class="d-flex justify-content-between">
+          <b>Output</b>
+          <span id="quality" class="badge bg-secondary badge-q">-</span>
+        </div>
 
-      <!-- SIDE PANEL -->
-      <div class="col-lg-4">
-        <div class="card shadow-sm border-0 h-100">
-          <div class="card-body p-4 small text-muted">
-            <p class="fw-semibold text-dark">How to get best results</p>
-            <ul>
-              <li>Be explicit about output format</li>
-              <li>Use context for non-trivial tasks</li>
-              <li>Select audience for correct tone</li>
-              <li>Use precision levels deliberately</li>
-            </ul>
-          </div>
+        <div class="output-wrap">
+          <span class="copy-icon" onclick="copyPrompt()">📋</span>
+          <span id="copiedText" class="copied">Copied!</span>
+          <textarea
+            id="output"
+            class="form-control output mt-2"
+            rows="12"
+          ></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between mt-2">
+          <small id="charCount">0 chars</small>
+          <button class="btn btn-sm btn-outline-success" onclick="download()">
+            Download
+          </button>
         </div>
       </div>
-
     </div>
-  </div>
+    </div>
+    <!-- HELP MODAL -->
+    <div class="modal fade" id="helpModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Example: Making a Clear Decision</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
 
-  <!-- HELP MODAL -->
-  <div class="modal fade" id="helpModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
+          <div class="modal-body">
+            <p>
+              Use this when you need help
+              <strong>choosing between options</strong>, not just understanding
+              them.
+            </p>
 
-        <div class="modal-header">
-          <h5 class="modal-title">Example: Making a Clear Decision</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+            <ul>
+              <li><strong>Task</strong> → Ask for a decision</li>
+              <li>
+                <strong>Context</strong> → Add limits (time, cost, capacity)
+              </li>
+              <li><strong>Audience</strong> → Shapes tone</li>
+              <li><strong>Persona</strong> → Ensures balanced thinking</li>
+              <li><strong>Precision</strong> → Forces recommendation</li>
+            </ul>
 
-        <div class="modal-body">
-          <p>
-            Use this when you need help <strong>choosing between options</strong>,
-            not just understanding them.
-          </p>
-
-          <ul>
-            <li><strong>Task</strong> → Ask for a decision</li>
-            <li><strong>Context</strong> → Add limits (time, cost, capacity)</li>
-            <li><strong>Audience</strong> → Shapes tone</li>
-            <li><strong>Persona</strong> → Ensures balanced thinking</li>
-            <li><strong>Precision</strong> → Forces recommendation</li>
-          </ul>
-
-          <pre>
+            <pre>
 Task:
 Decide whether to keep improving Jenkins
 or move to managed CI/CD on GCP.
@@ -283,65 +358,84 @@ Solution Architect
 
 Precision Level:
 Decision-making analysis
-        </pre>
+        </pre
+            >
 
-          <p class="mb-0">
-            <strong>Result:</strong> Clear trade-offs and a recommendation.
-          </p>
+            <p class="mb-0">
+              <strong>Result:</strong> Clear trade-offs and a recommendation.
+            </p>
+          </div>
         </div>
-
       </div>
     </div>
-  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const precisionHints = {
+        "High-level summary": "Brief summary with key takeaways",
+        "Practical execution steps": "Step-by-step actionable instructions",
+        "Deep technical reasoning": "Detailed analysis with reasoning",
+        "Decision-making analysis": "Compares options with recommendation",
+      };
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      function updatePrecisionHint() {
+        const value = document.getElementById("precision").value;
+        document.getElementById("precisionHint").innerText =
+          precisionHints[value] || "";
+      }
 
-  <script>
-    function checkPersonaUpdate() {
-      const persona = document.getElementById("persona").value;
-      const override = document.getElementById("roleOverride");
-      override.classList.toggle("hide", persona !== "other");
-      if (persona !== "other") document.getElementById("role").value = "";
-    }
+      // initialize on load
+      updatePrecisionHint();
+      // cache DOM once (performance + cleaner)
+      const $ = (id) => document.getElementById(id);
 
-    function insertContextTemplate() {
-      const template =
-        `Situation:
-Goal:
-Constraints:
-What I tried:
-What “good” looks like:`;
-      const el = document.getElementById("context");
-      if (!el.value.trim()) el.value = template;
-    }
+      const fields = [
+        "task",
+        "context",
+        "audience",
+        "persona",
+        "precision",
+        "role",
+      ];
 
-function generatePrompt() {
-  const personaValue = persona.value && persona.value !== "Select"
-    ? persona.value
-    : "Professional expert";
+      // auto-save + auto-generate
+      fields.forEach((id) => {
+        $(id)?.addEventListener("input", () => {
+          save();
+          autoGenerate();
+        });
+      });
 
-  const roleValue = role.value?.trim();
-  const effectiveRole = roleValue || personaValue;
+      // persona toggle
+      $("persona").addEventListener("change", checkPersonaUpdate);
 
-  const taskValue = task.value.trim();
-  const contextValue = context.value.trim();
-  const audienceValue = audience.value;
-  const precisionValue = precision.value;
+      // main generator
+      function generatePrompt() {
+        if (!$("task").value.trim()) {
+          $("taskErr").innerText = "Task required";
+          return;
+        }
+        $("taskErr").innerText = "";
 
-  const prompt = `Act as a ${effectiveRole}.
+        const personaValue =
+          $("persona").value !== "Select"
+            ? $("persona").value
+            : "Professional expert";
+
+        const effectiveRole = $("role").value.trim() || personaValue;
+
+        const prompt = `Act as a ${effectiveRole}.
 
 Audience:
-${audienceValue}
+${$("audience").value}
 
 Context (facts only; do not invent or assume missing information):
-${contextValue || "[No additional context provided]"}
+${$("context").value || "[No additional context provided]"}
 
 Task:
-${taskValue || "[Task not specified]"}
+${$("task").value || "[Task not specified]"}
 
 Precision Level:
-${precisionValue}
+${$("precision").value}
 
 Response Format Rules (MUST be followed strictly):
 
@@ -389,24 +483,130 @@ Thinking & Quality Rules:
 
 Communication Style:
 - Clear, calm, professional.
-- Appropriate for ${audienceValue}.
+- Appropriate for ${$("audience").value}.
 - No motivational language.
 - No repetition.
 
 Missing Information Handling:
 - If essential information is missing, ask the minimum set of precise questions required to proceed.`;
 
-  output.value = prompt;
+        $("output").value = prompt;
+        updateStats();
+      }
+
+      // live preview
+      function autoGenerate() {
+        if ($("task").value.trim()) generatePrompt();
+      }
+
+      // stats
+      function updateStats() {
+        $("charCount").innerText = $("output").value.length + " chars";
+
+        const score =
+          ($("task").value ? 1 : 0) +
+          ($("context").value ? 1 : 0) +
+          ($("persona").value !== "Select" ? 1 : 0);
+
+        $("quality").innerText =
+          score >= 3 ? "High" : score === 2 ? "Medium" : "Low";
+      }
+
+      // copy
+      async function copyPrompt() {
+        await navigator.clipboard.writeText($("output").value);
+        $("copiedText").style.display = "inline";
+        setTimeout(() => ($("copiedText").style.display = "none"), 1200);
+      }
+
+      // reset
+      function clearAll() {
+        localStorage.clear();
+        location.reload();
+      }
+
+      // storage
+      function save() {
+        fields.forEach((id) => localStorage.setItem(id, $(id)?.value));
+      }
+
+      function load() {
+        fields.forEach((id) => {
+          if (localStorage.getItem(id)) $(id).value = localStorage.getItem(id);
+        });
+      }
+
+      // toggles
+      function toggleDark() {
+        document.body.classList.toggle("dark");
+      }
+      function toggleAdvanced() {
+        $("adv").classList.toggle("hide");
+      }
+
+      // download
+      function download() {
+        const blob = new Blob([$("output").value], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "prompt.txt";
+        a.click();
+      }
+
+      // persona override
+      function checkPersonaUpdate() {
+        $("roleOverride").classList.toggle(
+          "hide",
+          $("persona").value !== "other"
+        );
+        if ($("persona").value !== "other") $("role").value = "";
+      }
+
+      // context template
+      function insertContextTemplate() {
+        if (!$("context").value.trim()) {
+          $("context").value = `Situation:
+Goal:
+Constraints:
+What I tried:
+What “good” looks like:`;
+        }
+      }
+
+      // shortcut
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "Enter") generatePrompt();
+      });
+
+      // init
+      load();
+      updateStats();
+      document.addEventListener("DOMContentLoaded", () => {
+        load();
+        updateStats();
+        updatePrecisionHint(); // ✅ ensure it runs on load
+        (function initDarkMode() {
+  const saved = localStorage.getItem("darkMode") === "true";
+
+  if (saved) {
+    document.body.classList.add("dark");
+    document.getElementById("darkIcon").className = "bi bi-sun";
+  }
+})();
+      });
+      function toggleDark() {
+  document.body.classList.toggle("dark");
+
+  const isDark = document.body.classList.contains("dark");
+
+  // save preference
+  localStorage.setItem("darkMode", isDark);
+
+  // toggle icon
+  document.getElementById("darkIcon").className =
+    isDark ? "bi bi-sun" : "bi bi-moon";
 }
 
-
-    async function copyPrompt() {
-      await navigator.clipboard.writeText(output.value);
-      copiedText.style.display = "inline";
-      setTimeout(() => copiedText.style.display = "none", 1200);
-    }
-  </script>
-
-</body>
-
+    </script>
+  </body>
 </html>

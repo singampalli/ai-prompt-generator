@@ -102,58 +102,120 @@
 <div class="container-fluid bg-dark text-light py-4 mb-4 hero">
   <div class="container-xl">
 
-    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+    <div class="row align-items-center g-3">
 
-      <!-- LEFT: Title + Description -->
-      <div>
-        <h4 class="mb-1 fw-semibold">AI Prompt Generator</h4>
+      <!-- 1️⃣ LEFT: Title + Description -->
+      <div class="col-lg-8">
+        <h4 class="mb-1 fw-semibold text-light">AI Prompt Generator</h4>
 
-        <p class="mb-1 small text-semibold">
-         This tool helps you craft clear, context-rich prompts for AI chats. It guides you to provide essential details and structure your prompt for better responses.
+        <p class="mb-2 small text-light">
+          This tool helps you craft clear, context-rich prompts for AI chats.
+          It guides you to structure your input for better responses.
         </p>
 
-        <div class="small text-semibold">
-          1️⃣ Describe task → 2️⃣ Add context → 3️⃣ Generate & paste into AI Chat.<br/> Optional: Set audience, persona, and precision level for better results.
+        <div class="small text-light">
+          1️⃣ Describe task → 2️⃣ Add context → 3️⃣ Generate & paste into AI Chat
+          <br />
+          <span class="text-light">
+            Optional: Add audience, persona, and precision for better results
+          </span>
         </div>
+    <div class="d-flex justify-content-lg-start justify-content-center gap-2 flex-wrap mt-4">
+
+          <button
+            id="darkToggleBtn"
+            class="btn btn-sm btn-outline-light"
+            onclick="toggleDark()"
+            title="Dark Mode"
+          >
+            <i id="darkIcon" class="bi bi-moon-fill"></i>
+          </button>
+        <!--  <button
+            href="https://in.linkedin.com/in/sandeep-singampalli"
+            class="btn btn-sm btn-outline-light"
+            title="LinkedIn"
+            target="_blank"
+          >
+            <i class="bi bi-linkedin"></i>
+        </button>-->
+
+          <button
+            class="btn btn-sm btn-outline-light"
+            onclick="toggleAdvanced()"
+            title="Advanced"
+          >
+            <i class="bi bi-gear"></i>
+          </button>
+
+          <button
+            class="btn btn-sm btn-outline-warning"
+            onclick="clearAll()"
+            title="Reset"
+          >
+            <i class="bi bi-arrow-counterclockwise"></i>
+          </button>
+
+          <button
+            class="btn btn-sm btn-outline-info"
+            data-bs-toggle="modal"
+            data-bs-target="#helpModal"
+            title="Help"
+          >
+            <i class="bi bi-question-circle"></i>
+          </button>
+
+        </div>
+
       </div>
 
-      <!-- RIGHT: Controls -->
-      <div class="d-flex gap-2">
+      <!-- 2️⃣ RIGHT: Badge + Controls -->
+      <div class="col-lg-4 text-center text-lg-end">
 
-        <button
-          id="darkToggleBtn"
-          class="btn btn-sm btn-outline-light"
-          onclick="toggleDark()"
-          title="Dark Mode"
+        <a href="https://www.linkedin.com/in/sandeep-singampalli/" target="_blank" class="card bg-white rounded text-decoration-none h-100" style="cursor: pointer;">
+          <div class="row g-0 h-100 align-items-center">
+            <!-- LEFT: Image (3 cols) -->
+            <div class="col-3 d-flex align-items-center justify-content-center p-3">
+              <img src="profilePic.jpg" alt="Profile" class="img-fluid rounded" style="object-fit: cover; aspect-ratio: .5;">
+            </div>
+            
+            <!-- RIGHT: Info (7 cols) -->
+            <div class="col-9 p-3">
+              <h6 class="fw-semibold mb-2">sandeep singampalli</h6>
+              <p class="small mb-0">
+                Technical Lead at Lloyds Technology Centre | EX-SAP | AI Architecture Enthusiast | Scalable Systems | Cloud-Native Solution Builder
+                <br>
+                Lloyds Technology Centre India
+                <br>
+                View profile <i class="bi bi-linkedin"></i>
+              </p>
+            </div>
+          </div>
+        </a>
+        <!-- LinkedIn Badge 
+        <script
+          src="https://platform.linkedin.com/badges/js/profile.js"
+          async
+          defer
+          type="text/javascript"
+        ></script>
+
+        <div
+          class="badge-base LI-profile-badge mb-2"
+          data-locale="en_US"
+          data-size="medium"
+          data-theme="light"
+          data-type="HORIZONTAL"
+          data-vanity="sandeep-singampalli"
+          data-version="v1"
         >
-          <i id="darkIcon" class="bi bi-moon-fill"></i>
-        </button>
+          <a
+            class="badge-base__link LI-simple-link"
+            href="https://in.linkedin.com/in/sandeep-singampalli?trk=profile-badge"
+          ></a>
+        </div>
 
-        <button
-          class="btn btn-sm btn-outline-light"
-          onclick="toggleAdvanced()"
-          title="Advanced"
-        >
-          <i class="bi bi-gear"></i>
-        </button>
-
-        <button
-          class="btn btn-sm btn-outline-warning"
-          onclick="clearAll()"
-          title="Reset"
-        >
-          <i class="bi bi-arrow-counterclockwise"></i>
-        </button>
-
-        <button
-          class="btn btn-sm btn-outline-info"
-          data-bs-toggle="modal"
-          data-bs-target="#helpModal"
-          title="Help"
-        >
-          <i class="bi bi-question-circle"></i>
-        </button>
-
+        <!-- Controls -->
+        
       </div>
 
     </div>
@@ -161,7 +223,7 @@
   </div>
 </div>
       <div class="row gx-4 gy-3">
-        <div class="col-12 col-lg-9">
+        <div class="col-12 col-lg-12">
           <div class="card p-4 h-100">
             <!-- TASK -->
             <label class="fw-semibold">Task *</label>
@@ -265,29 +327,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3">
-          <script
-            src="https://platform.linkedin.com/badges/js/profile.js"
-            async
-            defer
-            type="text/javascript"
-          ></script>
-          <div
-            class="badge-base LI-profile-badge"
-            data-locale="en_US"
-            data-size="large"
-            data-theme="light"
-            data-type="HORIZONTAL"
-            data-vanity="sandeep-singampalli"
-            data-version="v1"
-          >
-            <a
-              class="badge-base__link LI-simple-link"
-              href="https://in.linkedin.com/in/sandeep-singampalli?trk=profile-badge"
-              ></a
-            >
-          </div>
-        </div>
+       
       </div>
       <!-- OUTPUT -->
         <div class="row gx-4 gy-3"></div>

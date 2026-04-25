@@ -188,30 +188,6 @@
           </div>
         </div>
       </a>
-        <!-- LinkedIn Badge 
-        <script
-          src="https://platform.linkedin.com/badges/js/profile.js"
-          async
-          defer
-          type="text/javascript"
-        ></script>
-
-        <div
-          class="badge-base LI-profile-badge mb-2"
-          data-locale="en_US"
-          data-size="medium"
-          data-theme="light"
-          data-type="HORIZONTAL"
-          data-vanity="sandeep-singampalli"
-          data-version="v1"
-        >
-          <a
-            class="badge-base__link LI-simple-link"
-            href="https://in.linkedin.com/in/sandeep-singampalli?trk=profile-badge"
-          ></a>
-        </div>
-
-        <!-- Controls -->
         
       </div>
 
@@ -220,7 +196,7 @@
   </div>
 </div>
       <div class="row gx-4 gy-3">
-        <div class="col-12 col-lg-12">
+        <div class="col-12 " id = "mainInput">
           <div class="card p-4 h-100">
             <!-- TASK -->
             <label class="fw-semibold">Task *</label>
@@ -244,83 +220,87 @@
               <option>Decision-making analysis</option>
             </select>
 
-            <!-- ADVANCED -->
-            <div id="adv" class="hide">
-              <div
-                class="d-flex justify-content-between align-items-center mb-1"
+            <!-- BUTTONS -->
+            <div class="d-flex gap-2 mt-3">
+              <button
+          class="btn btn-primary flex-fill d-flex align-items-center justify-content-center gap-2 shadow-sm"
+          onclick="generatePrompt()"
               >
-                <label class="fw-semibold mb-0">
-                  Context / Situation
-                  <span class="text-muted">(Recommended)</span>
-                </label>
+          <i class="bi bi-magic"></i> Generate
+              </button>
 
-                <button
-                  class="btn btn-sm btn-primary"
-                  onclick="insertContextTemplate()"
-                >
-                  Template
-                </button>
+              <button
+          class="btn btn-outline-secondary flex-fill d-flex align-items-center justify-content-center gap-2"
+          onclick="clearAll()"
+              >
+          <i class="bi bi-arrow-counterclockwise"></i> Clear
+              </button>
+
+              <button
+          class="btn btn-light border d-flex align-items-center gap-2 px-3"
+          onclick="toggleAdvanced()"
+          title="Advanced"
+              >
+          <i class="bi bi-gear"></i>
+          <span class="d-none d-md-inline">Advanced</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 hide" id="advancedInput">
+          <div class="card p-4 h-100">
+            <!-- ADVANCED -->
+            <div class="advanced-section">
+              <div
+          class="d-flex justify-content-between align-items-center mb-1"
+              >
+          <label class="fw-semibold mb-0">
+            Context / Situation
+            <span class="text-muted">(Recommended)</span>
+          </label>
+
+          <button
+            class="btn btn-sm btn-primary"
+            onclick="insertContextTemplate()"
+          >
+            Template
+          </button>
               </div>
 
               <textarea
-                id="context"
-                class="form-control mb-2"
-                rows="4"
+          id="context"
+          class="form-control mb-2"
+          rows="4"
               ></textarea>
 
               <label>Audience</label>
               <select id="audience" class="form-select mb-2">
-                <option>Self</option>
-                <option>Peer / Team</option>
-                <option>Manager</option>
-                <option>Senior Leadership</option>
-                <option>Customer / External</option>
+          <option>Self</option>
+          <option>Peer / Team</option>
+          <option>Manager</option>
+          <option>Senior Leadership</option>
+          <option>Customer / External</option>
               </select>
 
               <label>Persona</label>
               <select id="persona" class="form-select mb-2">
-                <option value="Select">Select</option>
-                <option>Career Coach</option>
-                <option>Leadership Coach</option>
-                <option>Solution Architect</option>
-                <option>Product Owner</option>
-                <option>Tech Mentor</option>
-                <option value="other">Other</option>
+          <option value="Select">Select</option>
+          <option>Career Coach</option>
+          <option>Leadership Coach</option>
+          <option>Solution Architect</option>
+          <option>Product Owner</option>
+          <option>Tech Mentor</option>
+          <option value="other">Other</option>
               </select>
 
               <div id="roleOverride" class="hide">
-                <input
-                  id="role"
-                  class="form-control mb-2"
-                  placeholder="Custom Role"
-                />
+          <input
+            id="role"
+            class="form-control mb-2"
+            placeholder="Custom Role"
+          />
               </div>
-            </div>
-
-            <!-- BUTTONS -->
-            <div class="d-flex gap-2 mt-3">
-              <button
-                class="btn btn-primary flex-fill d-flex align-items-center justify-content-center gap-2 shadow-sm"
-                onclick="generatePrompt()"
-              >
-                <i class="bi bi-magic"></i> Generate
-              </button>
-
-              <button
-                class="btn btn-outline-secondary flex-fill d-flex align-items-center justify-content-center gap-2"
-                onclick="clearAll()"
-              >
-                <i class="bi bi-arrow-counterclockwise"></i> Clear
-              </button>
-
-              <button
-                class="btn btn-light border d-flex align-items-center gap-2 px-3"
-                onclick="toggleAdvanced()"
-                title="Advanced"
-              >
-                <i class="bi bi-gear"></i>
-                <span class="d-none d-md-inline">Advanced</span>
-              </button>
             </div>
           </div>
         </div>
@@ -459,6 +439,35 @@ Decision-making analysis
             : "Professional expert";
 
         const effectiveRole = $("role").value.trim() || personaValue;
+const precision = {
+  "High-level summary": `Use:
+  Summary:
+  - concise bullet points
+  Key Takeaway:
+  - one clear conclusion
+  Do NOT use step-based format.`,
+
+  "Practical execution steps": `Respond using:
+  step 1 :
+  step 2 :
+  step 3 :
+  Add steps only if necessary.
+  Keep steps short, concrete, and actionable.`,
+
+  "Deep technical reasoning": `Use sections:
+  Context
+  Analysis
+  Reasoning
+  Conclusion
+  Explicitly state assumptions and trade-offs.`,
+
+  "Decision-making analysis": `Use sections:
+  Decision Goal
+  Options Considered
+  Trade-offs
+  Recommendation
+  Risks and Mitigations`
+};
 
         const prompt = `Act as a ${effectiveRole}.
 
@@ -474,41 +483,11 @@ ${$("task").value || "[Task not specified]"}
 Precision Level:
 ${$("precision").value}
 
-Response Format Rules (MUST be followed strictly):
-
-- If Precision Level is "High-level summary":
-  Use:
-  Summary:
-  - concise bullet points
-  Key Takeaway:
-  - one clear conclusion
-  Do NOT use step-based format.
-
-- If Precision Level is "Practical execution steps":
-  Respond using:
-  step 1 :
-  step 2 :
-  step 3 :
-  Add steps only if necessary.
-  Keep steps short, concrete, and actionable.
-
-- If Precision Level is "Deep technical reasoning":
-  Use sections:
-  Context
-  Analysis
-  Reasoning
-  Conclusion
-  Explicitly state assumptions and trade-offs.
-
-- If Precision Level is "Decision-making analysis":
-  Use sections:
-  Decision Goal
-  Options Considered
-  Trade-offs
-  Recommendation
-  Risks and Mitigations
-
-Do not mix formats across precision levels.
+Response Format Rules (MUST be followed strictly):`
++
+ precision[$("precision").value]
++
+`
 
 Thinking & Quality Rules:
 - Persona defines reasoning style, not facts.
@@ -578,7 +557,10 @@ Missing Information Handling:
         document.body.classList.toggle("dark");
       }
       function toggleAdvanced() {
-        $("adv").classList.toggle("hide");
+        const advanced = $("advancedInput");
+        const isHidden = advanced.classList.toggle("hide");
+        $("mainInput").classList.toggle("col-8", !isHidden);
+        $("mainInput").classList.toggle("col-12", isHidden);
       }
 
       // download
